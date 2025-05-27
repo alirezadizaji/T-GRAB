@@ -18,7 +18,7 @@ EVAL_MODE=false
 CTDG_DO_SNAPSHOT_TRAINING=true
 METHODS_TO_RUN=("CTDG/_dygformer")
 CLEAR_RESULT=false 
-WANDB_ENTITY="alirezadizaji24-universit-de-montr-al"
+WANDB_ENTITY="##anonymized##"
 
 for value in "${which_dataset_to_train[@]}"; 
 do
