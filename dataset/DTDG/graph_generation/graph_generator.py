@@ -40,13 +40,6 @@ def nx_undirected_graph_to_sparse(G: nx.Graph, return_edge_feat: bool = False) -
 
 
 class GraphGenerator:
-    SAVE_DIR = os.path.join(
-                    os.getenv('SCRATCH'),
-                    'lab',
-                    'TSA',
-                    'data'
-                )
-
     def __init__(self, 
                  num_nodes: int,
                  dataset_name: str,
@@ -77,7 +70,8 @@ class GraphGenerator:
         parser.add_argument('--seed', required=True, type=int, default=12345)
         parser.add_argument('-s', '--num-neg-links-to-sample-per-pos-link', default=None, type=int, help='Number of negative links to sample per positive link.')
         parser.add_argument('--do-neg-sampling', action='store_true')
-        parser.add_argument('--t-unit', default=1, type=int, help='Time unit for the graph.')
+        parser.add_argument('--save-dir', required=True, type=str, help="The directory to save the dataset.")
+
         return parser
     
     @abstractmethod
@@ -111,7 +105,7 @@ class GraphGenerator:
 
         print(f"\t Data generated. src shape: {src.shape}, edge_feat shape: {edge_feat.shape}\n\tNumber of validation links: {val_mask.sum()}, test: {test_mask.sum()}, test_inductive: {test_inductive_mask.sum()}", flush=True)
         
-        fdir = os.path.join(GraphGenerator.SAVE_DIR, self.dataset_name)
+        fdir = os.path.join(self.args.save_dir, self.dataset_name)
 
         # generate validation negative edge set
         os.makedirs(fdir, exist_ok=True)
