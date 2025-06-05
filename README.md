@@ -4,6 +4,12 @@ a) Counting and memorizing periodic repetitions (periodicity),
 b) Inferring delayed causal effects (cause_effect), and
 c) Capturing long-range dependencies across both spatial and temporal dimensions (long_range).
 
+The framework has been tested with various TGNN architectures including:
+- CTDG-based models: DyGFormer, TGN, TGAT, CTAN
+- DTDG-based models: GCN, GCLSTM, TGCN, GAT, EGCN
+- Baseline methods: EdgeBank, Previous
+
+![T-GRAB](./figs/main.png)
 The code can be used to reproduce the results from the original paper.
 
 ## Reproduce the results
