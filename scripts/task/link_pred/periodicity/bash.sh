@@ -19,7 +19,7 @@ CTDG_DO_SNAPSHOT_TRAINING=true
 # METHODS_TO_RUN=("CTDG/_dygformer" "CTDG/_tgn" "CTDG/_tgat" "CTDG/_ctan" "DTDG/_gcn" "DTDG/_gclstm" "DTDG/_tgcn" "DTDG/_gat" "DTDG/_egcn" "DTDG/_previous")
 METHODS_TO_RUN=("CTDG/_dygformer")
 CLEAR_RESULT=false 
-WANDB_ENTITY="alirezadizaji24-universit-de-montr-al"
+WANDB_ENTITY="[your_username]"
 ###########################################################################
 
 for value in "${which_dataset_to_train[@]}"; 
@@ -49,13 +49,10 @@ do
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Model-specific variables $$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                         if [[ " ${METHODS_TO_RUN[@]} " =~ " CTDG/_edgebank " ]]; then
                             # Edgebank doesn't need seed, or node_feat
-                            sbatch \
-                                --output="$PWD/tasks/logs/${task}/${value}_${DATASET_PATTERN}/${edgebank_model}/slurm-${NUM_TRAINING_WEEKS}trW-${NUM_REPS}r-${FIXED_PROB}fp-%j-o.out" \
-                                --error="$PWD/tasks/logs/${task}/${value}_${DATASET_PATTERN}/${edgebank_model}/slurm-${NUM_TRAINING_WEEKS}trW-${NUM_REPS}r-${FIXED_PROB}fp-%j-e.out" \
-                                scripts/task/link_pred/periodicity/CTDG/_edgebank.sh \
-                                    "$DATA" \
-                                    $ROOT_LOAD_SAVE_DIR \
-                                    "$VAL_FIRST_METRIC"
+                            ./scripts/task/link_pred/periodicity/CTDG/_edgebank.sh \
+                                "$DATA" \
+                                $ROOT_LOAD_SAVE_DIR \
+                                "$VAL_FIRST_METRIC"
                         fi
 
                         # Compute memory
@@ -113,34 +110,29 @@ do
                                                                     do
                                                                         for MEMORY_DIM in 100
                                                                         do
-                                                                            sbatch \
-                                                                                --mem=${MEM}gb \
-                                                                                --gres=gpu:${GPU}gb:1 \
-                                                                                --output="$PWD/tasks/logs/${task}/${value}_${DATASET_PATTERN}/${model}/${SEED}/slurm-${NUM_TRAINING_WEEKS}trW-${EVAL_WEEK}vW-${EVAL_WEEK}tsW-${FIXED_PROB}p-%j-o.out" \
-                                                                                --error="$PWD/tasks/logs/${task}/${value}_${DATASET_PATTERN}/${model}/${SEED}/slurm-${NUM_TRAINING_WEEKS}trW-${EVAL_WEEK}vW-${EVAL_WEEK}tsW-${FIXED_PROB}p-%j-e.out" \
-                                                                                scripts/task/link_pred/periodicity/$model.sh \
-                                                                                    "$DATA" \
-                                                                                    $SEED \
-                                                                                    $NODE_FEAT \
-                                                                                    $NODE_FEAT_DIM \
-                                                                                    $EVAL_MODE \
-                                                                                    $NUM_EPOCHS_TO_VIS \
-                                                                                    $ROOT_LOAD_SAVE_DIR \
-                                                                                    "$VAL_FIRST_METRIC" \
-                                                                                    $MEM \
-                                                                                    $MAX_GPU \
-                                                                                    $GPU \
-                                                                                    $NUM_UNITS \
-                                                                                    $NUM_HEADS \
-                                                                                    $TIME_FEAT_DIM \
-                                                                                    $NUM_NEIGHBORS \
-                                                                                    $TRAIN_BATCH_SIZE \
-                                                                                    $CTDG_DO_SNAPSHOT_TRAINING \
-                                                                                    $CHANNEL_EMBEDDING_DIM \
-                                                                                    $MAX_INPUT_SEQ_LEN \
-                                                                                    $MEMORY_DIM \
-                                                                                    $CLEAR_RESULT \
-                                                                                    $WANDB_ENTITY
+                                                                            ./scripts/task/link_pred/periodicity/$model.sh \
+                                                                                "$DATA" \
+                                                                                $SEED \
+                                                                                $NODE_FEAT \
+                                                                                $NODE_FEAT_DIM \
+                                                                                $EVAL_MODE \
+                                                                                $NUM_EPOCHS_TO_VIS \
+                                                                                $ROOT_LOAD_SAVE_DIR \
+                                                                                "$VAL_FIRST_METRIC" \
+                                                                                $MEM \
+                                                                                $MAX_GPU \
+                                                                                $GPU \
+                                                                                $NUM_UNITS \
+                                                                                $NUM_HEADS \
+                                                                                $TIME_FEAT_DIM \
+                                                                                $NUM_NEIGHBORS \
+                                                                                $TRAIN_BATCH_SIZE \
+                                                                                $CTDG_DO_SNAPSHOT_TRAINING \
+                                                                                $CHANNEL_EMBEDDING_DIM \
+                                                                                $MAX_INPUT_SEQ_LEN \
+                                                                                $MEMORY_DIM \
+                                                                                $CLEAR_RESULT \
+                                                                                $WANDB_ENTITY
                                                                         done
                                                                     done
                                                                 done
@@ -188,31 +180,26 @@ do
                                                     do
                                                         for TRAIN_BATCH_SIZE in 1
                                                         do
-                                                            sbatch \
-                                                                --mem=${MEM}gb \
-                                                                --gres=gpu:${GPU}gb:1 \
-                                                                --output="$PWD/tasks/logs/${task}/${value}_${DATASET_PATTERN}/CTDG/_ctan/${SEED}/slurm-${NUM_TRAINING_WEEKS}trW-${EVAL_WEEK}vW-${EVAL_WEEK}tsW-${FIXED_PROB}p-%j-o.out" \
-                                                                --error="$PWD/tasks/logs/${task}/${value}_${DATASET_PATTERN}/CTDG/_ctan/${SEED}/slurm-${NUM_TRAINING_WEEKS}trW-${EVAL_WEEK}vW-${EVAL_WEEK}tsW-${FIXED_PROB}p-%j-e.out" \
-                                                                scripts/task/link_pred/periodicity/CTDG/_ctan.sh \
-                                                                    "$DATA" \
-                                                                    $SEED \
-                                                                    $NODE_FEAT \
-                                                                    $NODE_FEAT_DIM \
-                                                                    $EVAL_MODE \
-                                                                    $NUM_EPOCHS_TO_VIS \
-                                                                    $ROOT_LOAD_SAVE_DIR \
-                                                                    "$VAL_FIRST_METRIC" \
-                                                                    $MEM \
-                                                                    $MAX_GPU \
-                                                                    $GPU \
-                                                                    $NUM_UNITS \
-                                                                    $OUT_CHANNELS \
-                                                                    $TIME_FEAT_DIM \
-                                                                    $SAMPLER_SIZE \
-                                                                    $TRAIN_BATCH_SIZE \
-                                                                    $CTDG_DO_SNAPSHOT_TRAINING \
-                                                                    $CLEAR_RESULT \
-                                                                    $WANDB_ENTITY
+                                                            ./scripts/task/link_pred/periodicity/CTDG/_ctan.sh \
+                                                                "$DATA" \
+                                                                $SEED \
+                                                                $NODE_FEAT \
+                                                                $NODE_FEAT_DIM \
+                                                                $EVAL_MODE \
+                                                                $NUM_EPOCHS_TO_VIS \
+                                                                $ROOT_LOAD_SAVE_DIR \
+                                                                "$VAL_FIRST_METRIC" \
+                                                                $MEM \
+                                                                $MAX_GPU \
+                                                                $GPU \
+                                                                $NUM_UNITS \
+                                                                $OUT_CHANNELS \
+                                                                $TIME_FEAT_DIM \
+                                                                $SAMPLER_SIZE \
+                                                                $TRAIN_BATCH_SIZE \
+                                                                $CTDG_DO_SNAPSHOT_TRAINING \
+                                                                $CLEAR_RESULT \
+                                                                $WANDB_ENTITY
                                                         done
                                                     done
                                                 done
@@ -235,25 +222,19 @@ do
                                                     else
                                                         MEM=$RAW_MEM
                                                     fi
-
-                                                    sbatch \
-                                                        --mem=${MEM}gb \
-                                                        --gres=gpu:32gb:1 \
-                                                        --output="$PWD/tasks/logs/${task}/${value}_${DATASET_PATTERN}/${model}/${SEED}/slurm-${NUM_TRAINING_WEEKS}trW-${EVAL_WEEK}vW-${EVAL_WEEK}tsW-${FIXED_PROB}p-%j-o.out" \
-                                                        --error="$PWD/tasks/logs/${task}/${value}_${DATASET_PATTERN}/${model}/${SEED}/slurm-${NUM_TRAINING_WEEKS}trW-${EVAL_WEEK}vW-${EVAL_WEEK}tsW-${FIXED_PROB}p-%j-e.out" \
-                                                        scripts/task/link_pred/periodicity/$model.sh \
-                                                            "$DATA" \
-                                                            $SEED \
-                                                            $NODE_FEAT \
-                                                            $NODE_FEAT_DIM \
-                                                            $EVAL_MODE \
-                                                            $NUM_EPOCHS_TO_VIS \
-                                                            $ROOT_LOAD_SAVE_DIR \
-                                                            "$VAL_FIRST_METRIC" \
-                                                            $OUT_CHANNELS \
-                                                            $NUM_UNITS \
-                                                            $CLEAR_RESULT \
-                                                            $WANDB_ENTITY
+                                                    ./scripts/task/link_pred/periodicity/$model.sh \
+                                                        "$DATA" \
+                                                        $SEED \
+                                                        $NODE_FEAT \
+                                                        $NODE_FEAT_DIM \
+                                                        $EVAL_MODE \
+                                                        $NUM_EPOCHS_TO_VIS \
+                                                        $ROOT_LOAD_SAVE_DIR \
+                                                        "$VAL_FIRST_METRIC" \
+                                                        $OUT_CHANNELS \
+                                                        $NUM_UNITS \
+                                                        $CLEAR_RESULT \
+                                                        $WANDB_ENTITY
                                                 done
                                             done
                                         fi
@@ -263,15 +244,10 @@ do
                                     for model in "DTDG/_empty" "DTDG/_clique" "DTDG/_previous"
                                     do
                                         if [[ " ${METHODS_TO_RUN[@]} " =~ " ${model} " ]]; then
-                                            sbatch \
-                                                --mem=4g \
-                                                --partition=long-cpu \
-                                                --output="$PWD/tasks/logs/${task}/${value}_${DATASET_PATTERN}/${model}/slurm-${NUM_TRAINING_WEEKS}trW-${EVAL_WEEK}vW-${EVAL_WEEK}tsW-%j-o.out" \
-                                                --error="$PWD/tasks/logs/${task}/${value}_${DATASET_PATTERN}/${model}/slurm-${NUM_TRAINING_WEEKS}trW-${EVAL_WEEK}vW-${EVAL_WEEK}tsW-%j-e.out" \
-                                                scripts/task/link_pred/periodicity/$model.sh \
-                                                    "$DATA" \
-                                                    $ROOT_LOAD_SAVE_DIR \
-                                                    $WANDB_ENTITY
+                                            ./scripts/task/link_pred/periodicity/$model.sh \
+                                                "$DATA" \
+                                                $ROOT_LOAD_SAVE_DIR \
+                                                $WANDB_ENTITY
                                         fi
                                     done
 
@@ -314,13 +290,10 @@ do
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Model-specific variables $$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                                         if [[ " ${METHODS_TO_RUN[@]} " =~ " CTDG/_edgebank " ]]; then
                                             # Edgebank doesn't need seed, or node_feat
-                                            sbatch \
-                                                --output="$PWD/tasks/logs/${task}/${value}_${dataset_pattern}/CTDG/_edgebank/slurm-${NUM_TRAINING_WEEKS}trW-nc${NUM_CLUSTERS}-icp${INTRA_CLUSTER_PROB}-incp${INTER_CLUSTER_PROB}-%j-o.out" \
-                                                --error="$PWD/tasks/logs/${task}/${value}_${dataset_pattern}/CTDG/_edgebank/slurm-${NUM_TRAINING_WEEKS}trW-nc${NUM_CLUSTERS}-icp${INTRA_CLUSTER_PROB}-incp${INTER_CLUSTER_PROB}-%j-e.out" \
-                                                scripts/task/link_pred/periodicity/CTDG/_edgebank.sh \
-                                                    "$DATA" \
-                                                    $ROOT_LOAD_SAVE_DIR \
-                                                    "$VAL_FIRST_METRIC"
+                                            ./scripts/task/link_pred/periodicity/CTDG/_edgebank.sh \
+                                                "$DATA" \
+                                                $ROOT_LOAD_SAVE_DIR \
+                                                "$VAL_FIRST_METRIC"
                                         fi
 
                                         # Compute memory
@@ -364,34 +337,29 @@ do
                                                                                     do
                                                                                         for MEMORY_DIM in 100
                                                                                         do
-                                                                                            # sbatch \
-                                                                                            #     --mem=${MEM}gb \
-                                                                                            #     --gres=gpu:1 \
-                                                                                            #     --output="$PWD/tasks/logs/${task}/${value}_${dataset_pattern}/${model}/${SEED}/slurm-${NUM_TRAINING_WEEKS}trW-nc${NUM_CLUSTERS}-icp${INTRA_CLUSTER_PROB}-incp${INTER_CLUSTER_PROB}-%j-o.out" \
-                                                                                            #     --error="$PWD/tasks/logs/${task}/${value}_${dataset_pattern}/${model}/${SEED}/slurm-${NUM_TRAINING_WEEKS}trW-nc${NUM_CLUSTERS}-icp${INTRA_CLUSTER_PROB}-incp${INTER_CLUSTER_PROB}-%j-e.out" \
                                                                                             ./scripts/task/link_pred/periodicity/$model.sh \
-                                                                                                    "$DATA" \
-                                                                                                    $SEED \
-                                                                                                    $NODE_FEAT \
-                                                                                                    $NODE_FEAT_DIM \
-                                                                                                    $EVAL_MODE \
-                                                                                                    $NUM_EPOCHS_TO_VIS \
-                                                                                                    $ROOT_LOAD_SAVE_DIR \
-                                                                                                    "$VAL_FIRST_METRIC" \
-                                                                                                    $MEM \
-                                                                                                    $MAX_GPU \
-                                                                                                    $GPU \
-                                                                                                    $NUM_UNITS \
-                                                                                                    $NUM_HEADS \
-                                                                                                    $TIME_FEAT_DIM \
-                                                                                                    $NUM_NEIGHBORS \
-                                                                                                    $TRAIN_BATCH_SIZE \
-                                                                                                    $CTDG_DO_SNAPSHOT_TRAINING \
-                                                                                                    $CHANNEL_EMBEDDING_DIM \
-                                                                                                    $MAX_INPUT_SEQ_LEN \
-                                                                                                    $MEMORY_DIM \
-                                                                                                    $CLEAR_RESULT \
-                                                                                                    $WANDB_ENTITY
+                                                                                                "$DATA" \
+                                                                                                $SEED \
+                                                                                                $NODE_FEAT \
+                                                                                                $NODE_FEAT_DIM \
+                                                                                                $EVAL_MODE \
+                                                                                                $NUM_EPOCHS_TO_VIS \
+                                                                                                $ROOT_LOAD_SAVE_DIR \
+                                                                                                "$VAL_FIRST_METRIC" \
+                                                                                                $MEM \
+                                                                                                $MAX_GPU \
+                                                                                                $GPU \
+                                                                                                $NUM_UNITS \
+                                                                                                $NUM_HEADS \
+                                                                                                $TIME_FEAT_DIM \
+                                                                                                $NUM_NEIGHBORS \
+                                                                                                $TRAIN_BATCH_SIZE \
+                                                                                                $CTDG_DO_SNAPSHOT_TRAINING \
+                                                                                                $CHANNEL_EMBEDDING_DIM \
+                                                                                                $MAX_INPUT_SEQ_LEN \
+                                                                                                $MEMORY_DIM \
+                                                                                                $CLEAR_RESULT \
+                                                                                                $WANDB_ENTITY
                                                                                         done
                                                                                     done
                                                                                 done
@@ -427,31 +395,26 @@ do
                                                                     do
                                                                         for TRAIN_BATCH_SIZE in 1
                                                                         do
-                                                                            sbatch \
-                                                                                --mem=${MEM}gb \
-                                                                                --gres=gpu:1 \
-                                                                                --output="$PWD/tasks/logs/${task}/${value}_${dataset_pattern}/CTDG/_ctan/${SEED}/slurm-${NUM_TRAINING_WEEKS}trW-nc${NUM_CLUSTERS}-icp${INTRA_CLUSTER_PROB}-incp${INTER_CLUSTER_PROB}-%j-o.out" \
-                                                                                --error="$PWD/tasks/logs/${task}/${value}_${dataset_pattern}/CTDG/_ctan/${SEED}/slurm-${NUM_TRAINING_WEEKS}trW-nc${NUM_CLUSTERS}-icp${INTRA_CLUSTER_PROB}-incp${INTER_CLUSTER_PROB}-%j-e.out" \
-                                                                                scripts/task/link_pred/periodicity/CTDG/_ctan.sh \
-                                                                                    "$DATA" \
-                                                                                    $SEED \
-                                                                                    $NODE_FEAT \
-                                                                                    $NODE_FEAT_DIM \
-                                                                                    $EVAL_MODE \
-                                                                                    $NUM_EPOCHS_TO_VIS \
-                                                                                    $ROOT_LOAD_SAVE_DIR \
-                                                                                    "$VAL_FIRST_METRIC" \
-                                                                                    $MEM \
-                                                                                    $MAX_GPU \
-                                                                                    $GPU \
-                                                                                    $NUM_UNITS \
-                                                                                    $OUT_CHANNELS \
-                                                                                    $TIME_FEAT_DIM \
-                                                                                    $SAMPLER_SIZE \
-                                                                                    $TRAIN_BATCH_SIZE \
-                                                                                    $CTDG_DO_SNAPSHOT_TRAINING \
-                                                                                    $CLEAR_RESULT \
-                                                                                    $WANDB_ENTITY
+                                                                            ./scripts/task/link_pred/periodicity/CTDG/_ctan.sh \
+                                                                                "$DATA" \
+                                                                                $SEED \
+                                                                                $NODE_FEAT \
+                                                                                $NODE_FEAT_DIM \
+                                                                                $EVAL_MODE \
+                                                                                $NUM_EPOCHS_TO_VIS \
+                                                                                $ROOT_LOAD_SAVE_DIR \
+                                                                                "$VAL_FIRST_METRIC" \
+                                                                                $MEM \
+                                                                                $MAX_GPU \
+                                                                                $GPU \
+                                                                                $NUM_UNITS \
+                                                                                $OUT_CHANNELS \
+                                                                                $TIME_FEAT_DIM \
+                                                                                $SAMPLER_SIZE \
+                                                                                $TRAIN_BATCH_SIZE \
+                                                                                $CTDG_DO_SNAPSHOT_TRAINING \
+                                                                                $CLEAR_RESULT \
+                                                                                $WANDB_ENTITY
                                                                         done
                                                                     done
                                                                 done
@@ -474,24 +437,19 @@ do
                                                                     else
                                                                         MEM=$RAW_MEM
                                                                     fi
-                                                                    sbatch \
-                                                                        --mem=${MEM}gb \
-                                                                        --gres=gpu:1 \
-                                                                        --output="$PWD/tasks/logs/${task}/${value}_${dataset_pattern}/${model}/${SEED}/slurm-${NUM_TRAINING_WEEKS}trW-nc${NUM_CLUSTERS}-icp${INTRA_CLUSTER_PROB}-incp${INTER_CLUSTER_PROB}-%j-o.out" \
-                                                                        --error="$PWD/tasks/logs/${task}/${value}_${dataset_pattern}/${model}/${SEED}/slurm-${NUM_TRAINING_WEEKS}trW-nc${NUM_CLUSTERS}-icp${INTRA_CLUSTER_PROB}-incp${INTER_CLUSTER_PROB}-%j-e.out" \
-                                                                        scripts/task/link_pred/periodicity/$model.sh \
-                                                                            "$DATA" \
-                                                                            $SEED \
-                                                                            $NODE_FEAT \
-                                                                            $NODE_FEAT_DIM \
-                                                                            $EVAL_MODE \
-                                                                            $NUM_EPOCHS_TO_VIS \
-                                                                            $ROOT_LOAD_SAVE_DIR \
-                                                                            "$VAL_FIRST_METRIC" \
-                                                                            $OUT_CHANNELS \
-                                                                            $NUM_UNITS \
-                                                                            $CLEAR_RESULT \
-                                                                            $WANDB_ENTITY
+                                                                    ./scripts/task/link_pred/periodicity/$model.sh \
+                                                                        "$DATA" \
+                                                                        $SEED \
+                                                                        $NODE_FEAT \
+                                                                        $NODE_FEAT_DIM \
+                                                                        $EVAL_MODE \
+                                                                        $NUM_EPOCHS_TO_VIS \
+                                                                        $ROOT_LOAD_SAVE_DIR \
+                                                                        "$VAL_FIRST_METRIC" \
+                                                                        $OUT_CHANNELS \
+                                                                        $NUM_UNITS \
+                                                                        $CLEAR_RESULT \
+                                                                        $WANDB_ENTITY
                                                                 fi
                                                             done
                                                         done
@@ -500,11 +458,7 @@ do
                                                     for model in "DTDG/_previous"
                                                     do
                                                         if [[ " ${METHODS_TO_RUN[@]} " =~ " ${model} " ]]; then
-                                                            sbatch \
-                                                                --mem=4gb \
-                                                                --output="$PWD/tasks/logs/${task}/${value}_${dataset_pattern}/${model}/slurm-${NUM_TRAINING_WEEKS}trW-nc${NUM_CLUSTERS}-icp${INTRA_CLUSTER_PROB}-incp${INTER_CLUSTER_PROB}-%j-o.out" \
-                                                                --error="$PWD/tasks/logs/${task}/${value}_${dataset_pattern}/${model}/slurm-${NUM_TRAINING_WEEKS}trW-nc${NUM_CLUSTERS}-icp${INTRA_CLUSTER_PROB}-incp${INTER_CLUSTER_PROB}-%j-e.out" \
-                                                                scripts/task/link_pred/periodicity/$model.sh \
+                                                            ./scripts/task/link_pred/periodicity/$model.sh \
                                                                 "$DATA" \
                                                                 $ROOT_LOAD_SAVE_DIR \
                                                                 $WANDB_ENTITY

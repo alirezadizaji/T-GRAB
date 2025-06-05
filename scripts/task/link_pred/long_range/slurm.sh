@@ -17,7 +17,7 @@ CTDG_DO_SNAPSHOT_TRAINING=true
 # METHODS_TO_RUN=("CTDG/_edgebank" "CTDG/_dygformer" "CTDG/_ctan" "CTDG/_tgn" "CTDG/_tgat" "DTDG/_gcn" "DTDG/_gclstm" "DTDG/_egcn" "DTDG/_tgcn" "DTDG/_gat" "DTDG/_egcn" "DTDG/_previous")
 METHODS_TO_RUN=("CTDG/_ctan")
 CLEAR_RESULT=false
-WANDB_ENTITY="alirezadizaji24-universit-de-montr-al"
+WANDB_ENTITY="[your_username]"
 ###########################################################################
 
 VAL_FIRST_METRIC="memnode_avg_f1"

@@ -66,7 +66,7 @@ The training scripts are located in the `scripts/task/` directory, which contain
    ```
 
 #### Running Experiments
-Each task provides an `all_in_one.sh` script, which comes pre-configured with default values for three types of variables. You can modify these variables as needed to customize your experiments:
+For each task, two script files are provided: `slurm.sh` for submitting batches of jobs via Slurm, and `bash.sh` for running experiments sequentially. Both scripts list all the required method configurations and come pre-configured with default values for three types of variables, which you can modify to customize your experiments:
 
 1. **Running-specific Variables** (common across all tasks):
    ```bash
@@ -101,18 +101,25 @@ Each task provides an `all_in_one.sh` script, which comes pre-configured with de
    
    Refer to the script file for the relevant hyperparameter blocks for each model type.
 
-Now, to run experiments for each task, use the following commands:
+Now, to run experiments for each task, use the following commands. Replace `[slurm | bash]` with either `slurm` (for Slurm batch jobs) or `bash` (for sequential runs) as appropriate:
 
 - **Periodicity:**
   ```bash
-  ./scripts/task/periodicity/all_in_one.sh [sbm] [fixed_er]
+  ./scripts/task/periodicity/slurm.sh [sbm] [fixed_er]
+  # or
+  ./scripts/task/periodicity/bash.sh [sbm] [fixed_er]
   ```
   - Use `sbm` for stochastic periodicity and `fixed_er` for deterministic periodicity. You can specify one or both.
 
 - **Cause-effect and Long-range:**
   ```bash
-  ./scripts/task/cause_effect/all_in_one.sh
-  ./scripts/task/long_range/all_in_one.sh
+  ./scripts/task/cause_effect/slurm.sh
+  # or
+  ./scripts/task/cause_effect/bash.sh
+
+  ./scripts/task/long_range/slurm.sh
+  # or
+  ./scripts/task/long_range/bash.sh
   ```
 
 You can find the model results and checkpoints in the `scratch/res` directory.
