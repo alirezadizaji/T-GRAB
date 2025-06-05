@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=CT_Pe_dygformer
+#SBATCH --job-name=CT_CE_TGAT
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --partition=long
@@ -23,13 +23,12 @@ ROOT_LOAD_SAVE_DIR=$7
 VAL_FIRST_METRIC=${8}
 
 NUM_UNITS=1
-echo "@@@ RUNNING DyGFormer on $DATA @@@"
+echo "@@@ RUNNING TGAT on $DATA @@@"
 echo "^^^ Number of units: $NUM_UNITS; ^^^"
 
-MAX_BATCH_SIZE=5000
+MAX_BATCH_SIZE=10000
 GPU=${11}
 MAX_GPU=${10}
-
 BATCH_SIZE=$((MAX_BATCH_SIZE * GPU / MAX_GPU))
 BATCH_SIZE=$(printf "%.0f" "$BATCH_SIZE")
 
@@ -39,37 +38,34 @@ TIME_FEAT_DIM=${14}
 NUM_NEIGHBORS=${15}
 TRAIN_BATCH_SIZE=${16}
 TRAIN_SNAPSHOT_BASED=${17}
-CHANNEL_EMBEDDING_DIM=${18}
-MAX_INPUT_SEQ_LEN=${19}
-CLEAR_RESULT=${21}
+CLEAR_RESULT=${20}
+NUM_NODES=${21}
+MEMORY_DIM=$NUM_NODES
 WANDB_ENTITY=${22}
 ARGS=(
-    CTDG.link_pred.periodicity.dygformer
+    CTDG.link_pred.memory_node.tgat
     --data="$DATA"
     --seed=$SEED
-    --patience=100
-    --num-epoch=100000
     --node-feat=$NODE_FEAT
     --data-loc=$DATA_LOC
     --num-units=$NUM_UNITS
     --val-first-metric=$VAL_FIRST_METRIC
     --node-pos=$NODE_POS
     --node-feat-dim=$NODE_FEAT_DIM
+    --train-eval-gap=2
+    --patience=100
+    --num-epoch=100000
     # --train-batch-size=$BATCH_SIZE
     --root-load-save-dir=$ROOT_LOAD_SAVE_DIR
+    --num-neighbors=$NUM_NEIGHBORS
     --time-scaling-factor=0.000001
     --num-units=$NUM_UNITS
     --num-heads=$NUM_HEADS 
     --dropout=0.1 
     --time-feat-dim=$TIME_FEAT_DIM
-    --patch_size=8
-    --train-eval-gap=10 # 2x of eval / training time ratio for sbm (256, 1) task
-    --channel_embedding_dim=$CHANNEL_EMBEDDING_DIM
-    --max_input_sequence_length=$MAX_INPUT_SEQ_LEN
     --train-batch-size=$TRAIN_BATCH_SIZE
-    --wandb-entity=$WANDB_ENTITY \
-    --wandb-project="T-GRAB" \
-    --wandb-log-interval=1 # DyGFormer is a very slow model. So, we need to log every 1 step.
+    --wandb-entity=$WANDB_ENTITY
+    --wandb-project="T-GRAB"
 )
 
 # Training arguments
@@ -110,3 +106,4 @@ else
     echo -e "\n\n %% START EVALUATION... %%"
     python -m $RUN_SCRIPT "${EVAL_ARGS[@]}"
 fi
+

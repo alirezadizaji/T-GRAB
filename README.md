@@ -32,9 +32,10 @@ There are two ways to generate datasets in T-GRAB:
 
    ```bash
    # For periodicity tasks
-   ./scripts/dataset/periodicity/all_in_one.sh [sbm|fixed_er]
+   ./scripts/dataset/periodicity/all_in_one.sh [sbm] [fixed_er]
    # sbm: stochastic periodicity
    # fixed_er: deterministic periodicity
+   # You can run either one or both arguments together
 
    # For cause-effect tasks
    ./scripts/dataset/cause_effect/all_in_one.sh
@@ -44,6 +45,27 @@ There are two ways to generate datasets in T-GRAB:
    ```
 
 The generated datasets are:
-- Stored in `data/` directory by default
+- Stored in `scratch/data/` directory by default
 - Saved in numpy compressed format for training
 - Available in CSV format on [Hugging Face](https://huggingface.co/datasets/Gilestel/T-GRAB)
+
+### Training
+1. Make sure to have a separate directory for long-range
+2. rename memory_node as cause_effect
+2.5 explain the wandb configuration: login first and set the wandb entity
+3. run all the methods only on one dataset using slurm
+4. describe the quick version to only run on each method
+5. explain that there could be two configs, one run in slurm and the other in local
+6. explain which variables they need to set before running, after changing the arguments for environment and the dataset.
+7. remove CTDG_do_snapshot training
+    a. long_range
+    b. cause_effect
+    c. periodicity
+8. describe there are two sets of metrics that they need to work: running-specific, dataset-specific, and model-specific variables.
+9. Describe where the model weights are stored.
+10. Give an example using CTAN.
+
+
+## Contribution
+Adding new methods
+Adding new datasets

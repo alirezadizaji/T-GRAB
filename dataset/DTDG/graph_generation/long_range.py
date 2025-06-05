@@ -27,7 +27,7 @@ class SpatioTemporalLongRange(GraphGenerator):
                  args.seed)
 
         # Concat train/val/test number of weeks to the dataset name.
-        self.dataset_name = self.dataset_name + f"/STLR-{args.num_samples}ns-{args.num_nodes}nn-{args.num_branches}nb-{args.val_ratio}vr-{args.test_ratio}tr"
+        self.dataset_name = self.dataset_name + f"/long_range-{args.num_samples}ns-{args.num_nodes}nn-{args.num_branches}nb-{args.val_ratio}vr-{args.test_ratio}tr"
         self.args = args
 
         lag_dist = self.dataset_name.split("/")[0]

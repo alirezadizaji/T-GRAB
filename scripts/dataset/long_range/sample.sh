@@ -23,4 +23,4 @@ python -m T-GRAB.dataset.DTDG.graph_generation.run long_range \
     --num-branches=3 \
     --num-samples=4000 \
     --visualize \
-    --save-dir=$PWD/T-GRAB/data/
+    --save-dir=$PWD/T-GRAB/scratch/data/

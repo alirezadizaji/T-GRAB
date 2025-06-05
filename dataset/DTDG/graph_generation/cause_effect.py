@@ -27,7 +27,7 @@ class CauseEffectGenerator(GraphGenerator):
                  args.seed)
 
         # Concat train/val/test number of weeks to the dataset name.
-        self.dataset_name = self.dataset_name + f"/memory_node-{args.num_nodes}n-{args.val_ratio}vr-{args.test_ratio}tr-{args.test_inductive_ratio}tir-{args.test_inductive_num_nodes_ratio}tinnr-{args.er_prob}ep-{args.er_prob_inductive}epi"
+        self.dataset_name = self.dataset_name + f"/cause_effect-{args.num_nodes}n-{args.val_ratio}vr-{args.test_ratio}tr-{args.test_inductive_ratio}tir-{args.test_inductive_num_nodes_ratio}tinnr-{args.er_prob}ep-{args.er_prob_inductive}epi"
         
         self.args = args
 

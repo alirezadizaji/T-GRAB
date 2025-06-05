@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=DT_Pe_GCN
+#SBATCH --job-name=DT_LR_GAT
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --partition=long
@@ -13,7 +13,7 @@ module load python/3.8
 source $PWD/tgrab/bin/activate
 cd ../
 
-# GCN scripts
+# GAT scripts
 DATA=$1
 SEED=$2
 NODE_FEAT=$3
@@ -26,12 +26,13 @@ VAL_FIRST_METRIC=${8}
 NUM_UNITS=${10}
 OUT_CHANNELS=${9}
 CLEAR_RESULT=${11}
-WANDB_ENTITY=${12}
-echo "@@@ RUNNING GCN on $DATA @@@"
+NUM_NODES=${12}
+WANDB_ENTITY=${13}
+echo "@@@ RUNNING GAT on $DATA @@@"
 echo "^^^ number of channels: $OUT_CHANNELS; Number of layers: $NUM_UNITS ^^^"
 
 ARGS=(
-    DTDG.link_pred.periodicity.gcn
+    DTDG.link_pred.memory_node.gat
     --data="$DATA"
     --seed=$SEED
     --patience=100
@@ -46,7 +47,7 @@ ARGS=(
     --back-prop-window-size=1
     --loss-computation=backward_only_last
     --root-load-save-dir=$ROOT_LOAD_SAVE_DIR 
-    --wandb-entity=$WANDB_ENTITY \
+    --wandb-entity=$WANDB_ENTITY
     --wandb-project="T-GRAB"
 )
 
@@ -78,8 +79,3 @@ else
     echo -e "\n\n %% START EVALUATION... %%"
     python -m $RUN_SCRIPT "${EVAL_ARGS[@]}"
 fi
-
-# # Draw the plots
-# echo -e "\n\n %% DRAW PLOTS... %%"
-# cd $HOME/lab/TSA/scripts/
-# ./plot/2d/periodicity/all_in_one.sh

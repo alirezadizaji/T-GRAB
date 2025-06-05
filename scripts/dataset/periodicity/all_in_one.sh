@@ -72,11 +72,11 @@ for value in "${which_dataset_to_generate[@]}"; do
                                     for N in 1
                                     do
                                         PERIODIC_PATTERN="($K, $N)"
-                                        # sbatch \
-                                        #     --mem=4G \
-                                        #     --output="logs/sbm_sto/($K, $N)/${NUM_TRAINING_WEEKS}trW-${NUM_CLUSTERS}nc-${INTER_CLUSTER_PROB}icnp-${INTRA_CLUSTER_PROB}icp/%j-e.out" \
-                                        #     --error="logs/sbm_sto/($K, $N)/${NUM_TRAINING_WEEKS}trW-${NUM_CLUSTERS}nc-${INTER_CLUSTER_PROB}icnp-${INTRA_CLUSTER_PROB}icp/%j-o.out" \
-                                            ./scripts/dataset/periodicity/sbm/_main.sh $NUM_NODES \
+                                        sbatch \
+                                            --mem=4G \
+                                            --output="logs/sbm/($K, $N)/${NUM_TRAINING_WEEKS}trW-${NUM_CLUSTERS}nc-${INTER_CLUSTER_PROB}icnp-${INTRA_CLUSTER_PROB}icp/%j-e.out" \
+                                            --error="logs/sbm/($K, $N)/${NUM_TRAINING_WEEKS}trW-${NUM_CLUSTERS}nc-${INTER_CLUSTER_PROB}icnp-${INTRA_CLUSTER_PROB}icp/%j-o.out" \
+                                            scripts/dataset/periodicity/sbm/_main.sh $NUM_NODES \
                                                 $NUM_CLUSTERS $TOPOLOGY_MODE $NUM_TRAINING_WEEKS $NUM_VALID_WEEKS $NUM_TEST_WEEKS \
                                                 $INTER_CLUSTER_PROB "$PERIODIC_PATTERN" $INTRA_CLUSTER_PROB
                                     done

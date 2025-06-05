@@ -19,4 +19,4 @@ python -m T-GRAB.dataset.DTDG.graph_generation.run cause_effect \
     \
     --er-prob=$7 \
     --er-prob-inductive=$8 \
-    --save-dir=$PWD/T-GRAB/data/
+    --save-dir=$PWD/T-GRAB/scratch/data/

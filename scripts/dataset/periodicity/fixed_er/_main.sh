@@ -20,5 +20,5 @@ python -m T-GRAB.dataset.DTDG.graph_generation.run periodicity \
     --fixed-er-prob=$6 \
     --topology-mode=$2 \
     --visualize \
-    --save-dir=$PWD/T-GRAB/data/
+    --save-dir=$PWD/T-GRAB/scratch/data/
 

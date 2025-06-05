@@ -19,4 +19,4 @@ python -m TSA.dataset.DTDG.graph_generation.run long_range \
     \
     --num-branches=$5 \
     --num-samples=$6 \
-    --save-dir=$PWD/T-GRAB/data/
+    --save-dir=$PWD/T-GRAB/scratch/data/

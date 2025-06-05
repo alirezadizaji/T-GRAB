@@ -4,14 +4,14 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --partition=long
 
-DATA_LOC=lab/TSA/data/
-RUN_SCRIPT=TSA.train.run
+DATA_LOC=data/
+RUN_SCRIPT=T-GRAB.train.run
 NODE_POS=circular_layout
 
 # Load module, env
 module load python/3.8
-source $HOME/envs/tsa/bin/activate
-cd $HOME/lab
+source $PWD/tgrab/bin/activate
+cd ../
 
 DATA="$1"
 SEED=$2
@@ -46,7 +46,7 @@ ARGS=(
     --seed=$SEED
     --patience=100
     --num-epoch=100000
-    --train-eval-gap=80 # 2x of eval / training time ratio for sbm_sto_v2 (256, 1) task
+    --train-eval-gap=80 # 2x of eval / training time ratio for sbm (256, 1) task
     --node-feat=$NODE_FEAT
     --data-loc=$DATA_LOC
     --num-units=$NUM_UNITS
@@ -63,7 +63,7 @@ ARGS=(
     --time-feat-dim=$TIME_FEAT_DIM
     --train-batch-size=$TRAIN_BATCH_SIZE
     --wandb-entity=$WANDB_ENTITY
-    --wandb-project="TSA"
+    --wandb-project="T-GRAB"
 )
 
 # Training arguments
@@ -105,8 +105,3 @@ else
     echo -e "\n\n %% START EVALUATION... %%"
     python -m $RUN_SCRIPT "${EVAL_ARGS[@]}"
 fi
-
-# # Draw the plots
-# echo -e "\n\n %% DRAW PLOTS... %%"
-# cd $HOME/lab/TSA/scripts/
-# ./plot/2d/periodicity/all_in_one.sh

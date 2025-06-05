@@ -31,7 +31,7 @@ python -m T-GRAB.dataset.DTDG.graph_generation.run periodicity \
     \
     --visualize \
     --topology-mode="$TOPOLOGY_MODE" \
-    --num-clusters ${NUM_CLUSTERS//_/ } \
+    --num-clusters=$NUM_CLUSTERS \
     --intra-cluster-prob=$INTRA_CLUSTER_PROB \
     --inter-cluster-prob=$INTER_CLUSTER_PROB \
-    --save-dir=$PWD/T-GRAB/data/
+    --save-dir=$PWD/T-GRAB/scratch/data/

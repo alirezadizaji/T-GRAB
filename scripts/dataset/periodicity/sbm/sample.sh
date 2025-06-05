@@ -25,4 +25,4 @@ python -m T-GRAB.dataset.DTDG.graph_generation.run periodicity \
     --num-clusters=3 \
     --intra-cluster-prob=0.9 \
     --inter-cluster-prob=0.01 \
-    --save-dir=$PWD/T-GRAB/data/
+    --save-dir=$PWD/T-GRAB/scratch/data/
