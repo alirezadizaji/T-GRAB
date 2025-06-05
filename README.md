@@ -99,7 +99,7 @@ Each task provides an `all_in_one.sh` script, which comes pre-configured with de
    - **DTDG**
    - **persistence**
    
-   Refer to the script comments or documentation for the relevant hyperparameter blocks for each model type.
+   Refer to the script file for the relevant hyperparameter blocks for each model type.
 
 Now, to run experiments for each task, use the following commands:
 
