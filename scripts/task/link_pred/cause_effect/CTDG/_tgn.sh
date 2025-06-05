@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=CT_Pe_CTAN
+#SBATCH --job-name=CT_CE_TGN
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --partition=long
@@ -21,26 +21,30 @@ EVAL_MODE=$5
 NUM_EPOCHS_TO_VIS=$6
 ROOT_LOAD_SAVE_DIR=$7
 VAL_FIRST_METRIC=${8}
+MEM=${9}
 
-MAX_BATCH_SIZE=20000
+NUM_UNITS=1
+echo "@@@ RUNNING TGN TGB on $DATA @@@"
+echo "^^^ Number of units: $NUM_UNITS; ^^^"
+
+MAX_BATCH_SIZE=10000
 GPU=${11}
 MAX_GPU=${10}
 BATCH_SIZE=$((MAX_BATCH_SIZE * GPU / MAX_GPU))
 BATCH_SIZE=$(printf "%.0f" "$BATCH_SIZE")
 
 NUM_UNITS=${12}
-OUT_CHANNELS=${13}
+NUM_HEADS=${13}
 TIME_FEAT_DIM=${14}
-SAMPLER_SIZE=${15}
+NUM_NEIGHBORS=${15}
 TRAIN_BATCH_SIZE=${16}
 TRAIN_SNAPSHOT_BASED=${17}
-CLEAR_RESULT=${18}
-WANDB_ENTITY=${19}
-echo "@@@ RUNNING CTAN on $DATA @@@"
-echo "^^^ Number of units: $NUM_UNITS; number of embedding dim: $OUT_CHANNELS; ^^^"
-
+CLEAR_RESULT=${20}
+NUM_NODES=${21}
+MEMORY_DIM=$NUM_NODES
+WANDB_ENTITY=${22}
 ARGS=(
-    CTDG.link_pred.periodicity.ctan
+    CTDG.link_pred.memory_node.tgn_tgb
     --data="$DATA"
     --seed=$SEED
     --node-feat=$NODE_FEAT
@@ -51,20 +55,16 @@ ARGS=(
     --node-feat-dim=$NODE_FEAT_DIM
     --patience=100
     --num-epoch=100000
-    --train-eval-gap=2
     # --train-batch-size=$BATCH_SIZE
     --root-load-save-dir=$ROOT_LOAD_SAVE_DIR
-    --embedding-dim=$OUT_CHANNELS
-    --activation-layer=tanh
+    --num-neighbors=$NUM_NEIGHBORS
+    --num-units=$NUM_UNITS
+    --num-heads=$NUM_HEADS
+    --dropout=0.1
     --time-feat-dim=$TIME_FEAT_DIM
-    --epsilon=0.01
-    --gamma=0.01
-    --mean-delta-t=0.
-    --std-delta-t=1.
-    --init-time=0
-    --sampler-size=$SAMPLER_SIZE
+    --memory-dim=$MEMORY_DIM
     --train-batch-size=$TRAIN_BATCH_SIZE
-    --wandb-entity=$WANDB_ENTITY \
+    --wandb-entity=$WANDB_ENTITY
     --wandb-project="T-GRAB"
 )
 

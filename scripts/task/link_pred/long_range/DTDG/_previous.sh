@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=CT_Pe_SBM_Bayes
+#SBATCH --job-name=DT_MN_Previous
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --partition=long-cpu
@@ -16,16 +16,16 @@ cd ../
 DATA="$1"
 ROOT_LOAD_SAVE_DIR=$2
 WANDB_ENTITY=${3}
-echo "@@@ RUNNING SBM Bayes on $DATA @@@"
+echo "@@@ RUNNING Previous on $DATA @@@"
 
 ARGS=(
-    CTDG.link_pred.periodicity.sbm_bayes \
+    DTDG.link_pred.memory_node.previous \
     --data="$DATA" \
     --data-loc=$DATA_LOC \
     --node-pos=$NODE_POS \
     --root-load-save-dir=$ROOT_LOAD_SAVE_DIR \
     --wandb-entity=$WANDB_ENTITY \
-    --wandb-project="TSA" \
+    --wandb-project="T-GRAB" \
     --num-epochs-to-visualize=1 \
     --eval-mode
 )

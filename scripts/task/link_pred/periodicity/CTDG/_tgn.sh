@@ -1,16 +1,16 @@
 #!/bin/bash
-#SBATCH --job-name=CT_Pe_TGN
+#SBATCH --job-name=CT_Pe_TGN_TGB
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --partition=long
 
-RUN_SCRIPT=TSA.train.run
+RUN_SCRIPT=T-GRAB.train.run
 NODE_POS=circular_layout
 
 # Load module, env
 module load python/3.8
-source $PYENV/bin/activate
-cd $PROJ_ROOT_DIR
+source $PWD/tgrab/bin/activate
+cd ../
 
 DATA="$1"
 SEED=$2
@@ -23,7 +23,7 @@ VAL_FIRST_METRIC=${8}
 MEM=${9}
 
 NUM_UNITS=1
-echo "@@@ RUNNING TGN on $DATA @@@"
+echo "@@@ RUNNING TGN TGB on $DATA @@@"
 echo "^^^ Number of units: $NUM_UNITS; ^^^"
 
 MAX_BATCH_SIZE=10000
@@ -43,7 +43,7 @@ CLEAR_RESULT=${21}
 WANDB_ENTITY=${22}
 
 ARGS=(
-    CTDG.link_pred.periodicity.tgn
+    CTDG.link_pred.periodicity.tgn_tgb
     --data="$DATA"
     --seed=$SEED
     --node-feat=$NODE_FEAT
@@ -54,11 +54,9 @@ ARGS=(
     --node-feat-dim=$NODE_FEAT_DIM
     --patience=100
     --num-epoch=100000
-    # --train-eval-gap=50 # 2x of eval / training time ratio for sbm_sto_v2 (256, 1) task
     # --train-batch-size=$BATCH_SIZE
     --root-load-save-dir=$ROOT_LOAD_SAVE_DIR
     --num-neighbors=$NUM_NEIGHBORS
-    --time-scaling-factor=0.000001
     --num-units=$NUM_UNITS
     --num-heads=$NUM_HEADS
     --dropout=0.1
@@ -66,7 +64,7 @@ ARGS=(
     --train-batch-size=$TRAIN_BATCH_SIZE
     --memory-dim=$MEMORY_DIM
     --wandb-entity=$WANDB_ENTITY
-    --wandb-project="TSA"
+    --wandb-project="T-GRAB"
 )
 
 # Training arguments
@@ -108,8 +106,3 @@ else
     echo -e "\n\n %% START EVALUATION... %%"
     python -m $RUN_SCRIPT "${EVAL_ARGS[@]}"
 fi
-
-# # Draw the plots
-# echo -e "\n\n %% DRAW PLOTS... %%"
-# cd $HOME/lab/TSA/scripts/
-# ./plot/2d/periodicity/all_in_one.sh

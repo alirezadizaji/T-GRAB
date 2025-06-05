@@ -23,7 +23,7 @@ def find_graph_generation_class(module_name) -> GraphGenerator:
 if __name__ == "__main__":
     script_name = argv[1]
     argv.remove(script_name)
-    module_name = f"TSA.dataset.DTDG.graph_generation.{script_name}"
+    module_name = f"T-GRAB.dataset.DTDG.graph_generation.{script_name}"
     cls_graph_generator = find_graph_generation_class(module_name)
     parser = cls_graph_generator.get_parser()
     try:

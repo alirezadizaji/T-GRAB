@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=CT_Pe_CTAN
+#SBATCH --job-name=CT_CE_CTAN
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --partition=long
@@ -22,6 +22,9 @@ NUM_EPOCHS_TO_VIS=$6
 ROOT_LOAD_SAVE_DIR=$7
 VAL_FIRST_METRIC=${8}
 
+echo "@@@ RUNNING CTAN on $DATA @@@"
+echo "^^^ Number of units: $NUM_UNITS; number of embedding dim: $OUT_CHANNELS; ^^^"
+
 MAX_BATCH_SIZE=20000
 GPU=${11}
 MAX_GPU=${10}
@@ -35,12 +38,10 @@ SAMPLER_SIZE=${15}
 TRAIN_BATCH_SIZE=${16}
 TRAIN_SNAPSHOT_BASED=${17}
 CLEAR_RESULT=${18}
-WANDB_ENTITY=${19}
-echo "@@@ RUNNING CTAN on $DATA @@@"
-echo "^^^ Number of units: $NUM_UNITS; number of embedding dim: $OUT_CHANNELS; ^^^"
-
+NUM_NODES=${19}
+WANDB_ENTITY=${20}
 ARGS=(
-    CTDG.link_pred.periodicity.ctan
+    CTDG.link_pred.memory_node.ctan
     --data="$DATA"
     --seed=$SEED
     --node-feat=$NODE_FEAT
@@ -49,22 +50,22 @@ ARGS=(
     --val-first-metric=$VAL_FIRST_METRIC
     --node-pos=$NODE_POS
     --node-feat-dim=$NODE_FEAT_DIM
+    --train-eval-gap=2
     --patience=100
     --num-epoch=100000
-    --train-eval-gap=2
     # --train-batch-size=$BATCH_SIZE
     --root-load-save-dir=$ROOT_LOAD_SAVE_DIR
     --embedding-dim=$OUT_CHANNELS
     --activation-layer=tanh
     --time-feat-dim=$TIME_FEAT_DIM
-    --epsilon=0.01
+    --epsilon=0.010001
     --gamma=0.01
     --mean-delta-t=0.
     --std-delta-t=1.
     --init-time=0
     --sampler-size=$SAMPLER_SIZE
     --train-batch-size=$TRAIN_BATCH_SIZE
-    --wandb-entity=$WANDB_ENTITY \
+    --wandb-entity=$WANDB_ENTITY
     --wandb-project="T-GRAB"
 )
 
