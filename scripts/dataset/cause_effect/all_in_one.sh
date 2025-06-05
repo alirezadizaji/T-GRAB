@@ -27,10 +27,10 @@ do
                             for NUM_PATTERNS in 4000
                             do
                                 DATASET_PATTERN="($LAG, $NUM_PATTERNS)"
-                                # sbatch \
-                                #     --mem=4G \
-                                #     --output="logs/$PATTERN_MODE/($LAG, $NUM_PATTERNS)_${ER_PROB}_${ER_PROB_INDUCTIVE}/%j-e.out" \
-                                #     --error="logs/$PATTERN_MODE/($LAG, $NUM_PATTERNS)_${ER_PROB}_${ER_PROB_INDUCTIVE}/%j-o.out" \
+                                sbatch \
+                                    --mem=4G \
+                                    --output="logs/$PATTERN_MODE/($LAG, $NUM_PATTERNS)_${ER_PROB}_${ER_PROB_INDUCTIVE}/%j-e.out" \
+                                    --error="logs/$PATTERN_MODE/($LAG, $NUM_PATTERNS)_${ER_PROB}_${ER_PROB_INDUCTIVE}/%j-o.out" \
                                     scripts/dataset/cause_effect/_main.sh \
                                         "$DATASET_PATTERN" \
                                         $NUM_NODES \

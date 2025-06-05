@@ -11,7 +11,6 @@ cd ../
 python -m T-GRAB.dataset.DTDG.graph_generation.run cause_effect \
     --num-nodes=$2 \
     --dataset-name="${1}" \
-    --neg-sampling-strategy="rnd" \
     --seed=12345 \
     --val-ratio=$3 \
     --test-ratio=$4 \

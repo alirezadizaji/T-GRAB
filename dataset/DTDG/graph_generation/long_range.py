@@ -24,10 +24,7 @@ class SpatioTemporalLongRange(GraphGenerator):
     def __init__(self, args) -> None:
         super(SpatioTemporalLongRange, self).__init__(args.num_nodes,
                  args.dataset_name,
-                 args.neg_sampling_strategy, 
-                 args.seed, 
-                 args.num_neg_links_to_sample_per_pos_link,
-                 args.do_neg_sampling)
+                 args.seed)
 
         # Concat train/val/test number of weeks to the dataset name.
         self.dataset_name = self.dataset_name + f"/STLR-{args.num_samples}ns-{args.num_nodes}nn-{args.num_branches}nb-{args.val_ratio}vr-{args.test_ratio}tr"
@@ -168,7 +165,7 @@ class SpatioTemporalLongRange(GraphGenerator):
             nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
 
             plt.title(f"Day {idx} out of {self.T}.")
-            vis_save_dir = os.path.join(GraphGenerator.SAVE_DIR, self.dataset_name, "vis", stage)
+            vis_save_dir = os.path.join(args_dict["save_dir"], self.dataset_name, "vis", stage)
             os.makedirs(vis_save_dir, exist_ok=True)
             plt.savefig(os.path.join(vis_save_dir, f"{idx}.png"))
             plt.close()

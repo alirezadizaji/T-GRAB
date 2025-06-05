@@ -24,10 +24,7 @@ class CauseEffectGenerator(GraphGenerator):
     def __init__(self, args) -> None:
         super(CauseEffectGenerator, self).__init__(args.num_nodes,
                  args.dataset_name,
-                 args.neg_sampling_strategy, 
-                 args.seed, 
-                 args.num_neg_links_to_sample_per_pos_link,
-                 args.do_neg_sampling)
+                 args.seed)
 
         # Concat train/val/test number of weeks to the dataset name.
         self.dataset_name = self.dataset_name + f"/memory_node-{args.num_nodes}n-{args.val_ratio}vr-{args.test_ratio}tr-{args.test_inductive_ratio}tir-{args.test_inductive_num_nodes_ratio}tinnr-{args.er_prob}ep-{args.er_prob_inductive}epi"

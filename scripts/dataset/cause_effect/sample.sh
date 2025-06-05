@@ -8,10 +8,12 @@ fi
 source $PWD/tgrab/bin/activate
 cd ../
 
+LAG=1
+NUM_PATTERNS=4000
+
 python -m T-GRAB.dataset.DTDG.graph_generation.run cause_effect \
     --num-nodes=101 \
-    --dataset-name="(1, 4000)" \
-    --neg-sampling-strategy="rnd" \
+    --dataset-name="($LAG, $NUM_PATTERNS)" \
     --seed=12345 \
     --val-ratio=0.1 \
     --test-ratio=0.1 \
@@ -20,4 +22,4 @@ python -m T-GRAB.dataset.DTDG.graph_generation.run cause_effect \
     \
     --er-prob=0.002 \
     --er-prob-inductive=0.02 \
-    --save-dir=$PWD/data/
+    --save-dir=$PWD/T-GRAB/data/

@@ -28,10 +28,7 @@ class PeriodicGenerator(GraphGenerator):
 
         super(PeriodicGenerator, self).__init__(args.num_nodes,
                  args.dataset_name,
-                 args.neg_sampling_strategy, 
-                 args.seed, 
-                 args.num_neg_links_to_sample_per_pos_link,
-                 args.do_neg_sampling)
+                 args.seed)
 
         assert re.search(PeriodicGenerator.PERIODIC_REGEX, self.dataset_name), f"Dataset name `{self.dataset_name}` doesn't follow the periodic regular expression."
         # Concat train/val/test number of weeks to the dataset name.
@@ -114,13 +111,12 @@ class PeriodicGenerator(GraphGenerator):
         parser.add_argument('-v', '--visualize', action='store_true', help='If given, then the first two periods are visualized.')
 
         parser.add_argument('-top', '--topology-mode', type=str, required=True, choices=['fixed_er', 'sbm'])
-        parser.add_argument('-prob', '--probability', type=float, required=True, default=0)
         
         # fixed_er
         parser.add_argument('--fixed-er-prob', type=float, required=False)
 
         # sbm topology
-        parser.add_argument('--num-clusters', type=int, nargs='+', required=False, help='Number of clusters for SBM mode')
+        parser.add_argument('--num-clusters', type=int, required=False, help='Number of clusters for SBM mode')
         parser.add_argument('--intra-cluster-prob', type=float, required=False, help='List of intra-cluster edge probabilities for SBM mode')
         parser.add_argument('--inter-cluster-prob', type=float, required=False, help='Probability of edges between clusters for SBM mode')
 
@@ -140,7 +136,7 @@ class PeriodicGenerator(GraphGenerator):
     
     def generate_snapshot(self, G: nx.Graph, pattern: str, args_dict: dict, first_period: bool=False) -> nx.Graph:
         assert pattern.isdigit(), f"Pattern {pattern} for dataset generation {self.dataset_name} should be a digit!"
-
+        pattern = int(pattern)
         num_nodes = args_dict['num_nodes']
         mode = args_dict['topology_mode']
 
@@ -154,8 +150,7 @@ class PeriodicGenerator(GraphGenerator):
         # SBM: periodic community assignment while the edge assignment is always stochastic.
         # Number of clusters is fixed.
         elif mode == 'sbm':
-            assert len(args_dict['num_clusters']) == 1, "This version only supports one number of clusters."
-            num_clusters = int(args_dict['num_clusters'][0])
+            num_clusters = int(args_dict['num_clusters'])
             
             base_count = self.num_nodes // num_clusters
             remained = self.num_nodes % num_clusters
@@ -221,7 +216,7 @@ class PeriodicGenerator(GraphGenerator):
                         plt.figure(figsize=(20, 10))
                         nx.draw_networkx(G, pos, node_size=40, with_labels=True, node_color="yellow")
                         plt.title(f"Day {idx} out of {len(self.patterns_in_a_period_list)} with pattern {pattern}")
-                        vis_save_dir = os.path.join(GraphGenerator.SAVE_DIR, self.dataset_name, "vis")
+                        vis_save_dir = os.path.join(args_dict['save_dir'], self.dataset_name, "vis")
                         os.makedirs(vis_save_dir, exist_ok=True)
                         plt.savefig(os.path.join(vis_save_dir, f"{i}w_{idx}p.png"))
                         plt.close()
@@ -247,7 +242,7 @@ class PeriodicGenerator(GraphGenerator):
     def create_data(self, args_dict) -> None:
         super(PeriodicGenerator, self).create_data(args_dict)
         
-        fdir = os.path.join(GraphGenerator.SAVE_DIR, self.dataset_name)        
+        fdir = os.path.join(args_dict['save_dir'], self.dataset_name)        
         with open(os.path.join(fdir, "patterns_in_a_period.pkl"), "wb") as f:
             pickle.dump(self.patterns_in_a_period_list, f)
 
