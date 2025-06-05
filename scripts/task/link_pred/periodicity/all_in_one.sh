@@ -16,6 +16,7 @@ which_dataset_to_train=("$@")
 ###################### Running-specific variables #########################
 EVAL_MODE=false
 CTDG_DO_SNAPSHOT_TRAINING=true
+# METHODS_TO_RUN=("CTDG/_dygformer" "CTDG/_tgn" "CTDG/_tgat" "CTDG/_ctan" "DTDG/_gcn" "DTDG/_gclstm" "DTDG/_tgcn" "DTDG/_gat" "DTDG/_egcn" "DTDG/_previous")
 METHODS_TO_RUN=("CTDG/_dygformer")
 CLEAR_RESULT=false 
 WANDB_ENTITY="alirezadizaji24-universit-de-montr-al"
@@ -34,7 +35,7 @@ do
         do
             for NUM_TRAINING_WEEKS in 40
             do
-                for K in 256
+                for K in 2
                 do
                     for N in 1
                     do
@@ -42,7 +43,7 @@ do
                         # Initialize an empty string
                         DATASET_PATTERN="($K, $N)"
 
-                        DATA="$DATASET_PATTERN/fixed_er-100n-${NUM_TRAINING_WEEKS}trW-${EVAL_WEEK}vW-${EVAL_WEEK}tsW-p0.0-fp${FIXED_PROB}"
+                        DATA="$DATASET_PATTERN/fixed_er-100n-${NUM_TRAINING_WEEKS}trW-${EVAL_WEEK}vW-${EVAL_WEEK}tsW-fp${FIXED_PROB}"
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Model-specific variables $$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -106,7 +107,7 @@ do
                                                         do
                                                             for CHANNEL_EMBEDDING_DIM in 50
                                                             do
-                                                                for MAX_INPUT_SEQ_LEN in 32 64 128 256 512
+                                                                for MAX_INPUT_SEQ_LEN in 20
                                                                 do
                                                                     for TRAIN_BATCH_SIZE in 1
                                                                     do
@@ -302,12 +303,12 @@ do
                         do
                             for NUM_CLUSTERS in "3"
                             do
-                                for K in 8 
+                                for K in 2 
                                 do
                                     for N in 1
                                     do
                                         dataset_pattern="($K, $N)"
-                                        DATA="$dataset_pattern/sbm_sto_v2-${NUM_NODES}n-${NUM_TRAINING_WEEKS}trW-${NUM_VALID_WEEKS}vW-${NUM_TEST_WEEKS}tsW-p0.0-nc${NUM_CLUSTERS}-icp${INTRA_CLUSTER_PROB}-incp${INTER_CLUSTER_PROB}"
+                                        DATA="$dataset_pattern/sbm-${NUM_NODES}n-${NUM_TRAINING_WEEKS}trW-${NUM_VALID_WEEKS}vW-${NUM_TEST_WEEKS}tsW-nc${NUM_CLUSTERS}-icp${INTRA_CLUSTER_PROB}-incp${INTER_CLUSTER_PROB}"
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Model-specific variables $$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -357,18 +358,18 @@ do
                                                                         do
                                                                             for CHANNEL_EMBEDDING_DIM in 50
                                                                             do
-                                                                                for MAX_INPUT_SEQ_LEN in 4 8 16
+                                                                                for MAX_INPUT_SEQ_LEN in 20
                                                                                 do
                                                                                     for TRAIN_BATCH_SIZE in 1
                                                                                     do
                                                                                         for MEMORY_DIM in 100
                                                                                         do
-                                                                                            sbatch \
-                                                                                                --mem=${MEM}gb \
-                                                                                                --gres=gpu:1 \
-                                                                                                --output="$PWD/tasks/logs/${task}/${value}_${dataset_pattern}/${model}/${SEED}/slurm-${NUM_TRAINING_WEEKS}trW-nc${NUM_CLUSTERS}-icp${INTRA_CLUSTER_PROB}-incp${INTER_CLUSTER_PROB}-%j-o.out" \
-                                                                                                --error="$PWD/tasks/logs/${task}/${value}_${dataset_pattern}/${model}/${SEED}/slurm-${NUM_TRAINING_WEEKS}trW-nc${NUM_CLUSTERS}-icp${INTRA_CLUSTER_PROB}-incp${INTER_CLUSTER_PROB}-%j-e.out" \
-                                                                                            scripts/task/link_pred/periodicity/$model.sh \
+                                                                                            # sbatch \
+                                                                                            #     --mem=${MEM}gb \
+                                                                                            #     --gres=gpu:1 \
+                                                                                            #     --output="$PWD/tasks/logs/${task}/${value}_${dataset_pattern}/${model}/${SEED}/slurm-${NUM_TRAINING_WEEKS}trW-nc${NUM_CLUSTERS}-icp${INTRA_CLUSTER_PROB}-incp${INTER_CLUSTER_PROB}-%j-o.out" \
+                                                                                            #     --error="$PWD/tasks/logs/${task}/${value}_${dataset_pattern}/${model}/${SEED}/slurm-${NUM_TRAINING_WEEKS}trW-nc${NUM_CLUSTERS}-icp${INTRA_CLUSTER_PROB}-incp${INTER_CLUSTER_PROB}-%j-e.out" \
+                                                                                            ./scripts/task/link_pred/periodicity/$model.sh \
                                                                                                     "$DATA" \
                                                                                                     $SEED \
                                                                                                     $NODE_FEAT \

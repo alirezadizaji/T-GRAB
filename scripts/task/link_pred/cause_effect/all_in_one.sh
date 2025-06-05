@@ -11,7 +11,6 @@ fi
 task=cause_effect
 NUM_EPOCHS_TO_VIS=0
 
-# User can change these variables.
 ###################### Running-specific variables #########################
 EVAL_MODE=false
 CTDG_DO_SNAPSHOT_TRAINING=true

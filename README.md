@@ -50,22 +50,69 @@ The generated datasets are:
 - Available in CSV format on [Hugging Face](https://huggingface.co/datasets/Gilestel/T-GRAB)
 
 ### Training
-1. Make sure to have a separate directory for long-range
-2. rename memory_node as cause_effect
-2.5 explain the wandb configuration: login first and set the wandb entity
-3. run all the methods only on one dataset using slurm
-4. describe the quick version to only run on each method
-5. explain that there could be two configs, one run in slurm and the other in local
-6. explain which variables they need to set before running, after changing the arguments for environment and the dataset.
-7. remove CTDG_do_snapshot training
-    a. long_range
-    b. cause_effect
-    c. periodicity
-8. describe there are two sets of metrics that they need to work: running-specific, dataset-specific, and model-specific variables.
-9. Describe where the model weights are stored.
-10. Give an example using CTAN.
+The training scripts are located in the `scripts/task/` directory, which contains three main tasks:
+- `cause_effect`: For inferring delayed causal effects
+- `long_range`: For capturing long-range dependencies
+- `periodicity`: For counting and memorizing periodic repetitions
 
+#### Prerequisites
+1. Login to your Weights & Biases account:
+   ```bash
+   wandb login
+   ```
+2. Activate the Python environment:
+   ```bash
+   source tgrab/bin/activate
+   ```
 
-## Contribution
-Adding new methods
-Adding new datasets
+#### Running Experiments
+Each task provides an `all_in_one.sh` script, which comes pre-configured with default values for three types of variables. You can modify these variables as needed to customize your experiments:
+
+1. **Running-specific Variables** (common across all tasks):
+   ```bash
+   EVAL_MODE=false               # Set to true for evaluation-only mode
+   METHODS_TO_RUN=(              # List of methods to run
+       "CTDG/_dygformer"
+       "CTDG/_tgn"
+       "CTDG/_tgat"
+       "CTDG/_ctan"
+       "DTDG/_gcn"
+       "DTDG/_gclstm"
+       "DTDG/_tgcn"
+       "DTDG/_gat"
+       "DTDG/_egcn"
+       "CTDG/_edgebank"
+       "DTDG/_previous"
+   )
+   CLEAR_RESULT=false            # Set to true to start training from scratch
+   WANDB_ENTITY="your-username" # Your Weights & Biases username
+   ```
+
+2. **Dataset-specific Variables:**
+   Specify which datasets to use for training and evaluation. Adjust these variables according to your experimental needs.
+
+3. **Model-specific Variables:**
+   Models are grouped into five categories, each with its own set of hyperparameters:
+   - **edgebank**
+   - **CTDG (excluding CTAN)**
+   - **CTAN**
+   - **DTDG**
+   - **persistence**
+   
+   Refer to the script comments or documentation for the relevant hyperparameter blocks for each model type.
+
+Now, to run experiments for each task, use the following commands:
+
+- **Periodicity:**
+  ```bash
+  ./scripts/task/periodicity/all_in_one.sh [sbm] [fixed_er]
+  ```
+  - Use `sbm` for stochastic periodicity and `fixed_er` for deterministic periodicity. You can specify one or both.
+
+- **Cause-effect and Long-range:**
+  ```bash
+  ./scripts/task/cause_effect/all_in_one.sh
+  ./scripts/task/long_range/all_in_one.sh
+  ```
+
+You can find the model results and checkpoints in the `scratch/res` directory.
