@@ -93,7 +93,7 @@ class Trainer(ABC):
     
     @property
     def results_path(self) -> str:
-        return os.path.join(self.args.root_load_save_dir, 'lab', 'TSA')
+        return self.args.root_load_save_dir
     
     @property
     def tx_summary_path(self) -> str:
