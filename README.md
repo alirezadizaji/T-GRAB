@@ -56,7 +56,7 @@ There are two ways to generate datasets in T-GRAB:
 The generated datasets are:
 - Stored in `scratch/data/` directory by default
 - Saved in numpy compressed format for training
-- Available in CSV format on [Hugging Face](https://huggingface.co/datasets/Gilestel/T-GRAB)
+  <!-- - Available in CSV format on [Hugging Face](https://huggingface.co/datasets/Gilestel/T-GRAB) -->
 
 ### Training
 The training scripts are located in the `scripts/task/` directory, which contains three main tasks:
