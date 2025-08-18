@@ -1,5 +1,7 @@
 # T-GRAB ☕ : A Synthetic Reasoning Benchmark for Learning On Temporal Graphs
 
+Authors: Alireza Dizaji, Benedict Aaron Tjandra, Mehrab Hamidi, Shenyang Huang, Guillaume Rabusseau
+
 📝 [Paper](https://arxiv.org/abs/2507.10183)
 🤗 [HuggingFace Dataset](https://huggingface.co/datasets/Gilestel/T-GRAB)
 
