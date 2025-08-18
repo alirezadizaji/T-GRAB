@@ -1,6 +1,8 @@
 # T-GRAB ☕ : A Synthetic Reasoning Benchmark for Learning On Temporal Graphs
 
-📊	[Datasets](https://drive.google.com/file/d/12lSbmrfatKGQUx8WWbPpbH4DsyzDLycr/view?usp=drive_link)
+📝 [Paper](https://arxiv.org/abs/2507.10183)
+🤗 [HuggingFace Dataset](https://huggingface.co/datasets/Gilestel/T-GRAB)
+
 
 This repository contains the implementation of the T-GRAB framework, a comprehensive set of synthetic tasks specifically designed to systematically evaluate the reasoning capabilities of Temporal Graph Neural Networks (TGNNs) over time. The framework offers controlled and interpretable tasks that target three core temporal reasoning skills:
 a) Counting and memorizing periodic repetitions (periodicity),
