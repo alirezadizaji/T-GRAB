@@ -5,7 +5,7 @@ from torch.nn.parameter import Parameter
 import torch.nn as nn
 import math
 
-import TSA.model.IBM.utils as u
+from . import utils as u
 from ..node_emb import NodeEmbeddingModel
 
 @dataclass

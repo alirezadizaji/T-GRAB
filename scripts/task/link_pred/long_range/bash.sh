@@ -1,6 +1,6 @@
 export ROOT_LOAD_SAVE_DIR="$PWD/scratch/"
 export SCRIPT_LOC=scripts/task/link_pred/
-export DATA_LOC=$PWD/data/
+export DATA_LOC=$PWD/scratch/data/
 export PYENV=$PWD/tgrab/
 
 if [[ "$PWD" != */T-GRAB ]]; then
@@ -15,7 +15,7 @@ NUM_EPOCHS_TO_VIS=0
 EVAL_MODE=false
 CTDG_DO_SNAPSHOT_TRAINING=true
 # METHODS_TO_RUN=("CTDG/_edgebank" "CTDG/_dygformer" "CTDG/_ctan" "CTDG/_tgn" "CTDG/_tgat" "DTDG/_gcn" "DTDG/_gclstm" "DTDG/_egcn" "DTDG/_tgcn" "DTDG/_gat" "DTDG/_egcn" "DTDG/_previous")
-METHODS_TO_RUN=("CTDG/_ctan")
+METHODS_TO_RUN=("CTDG/_tgn")
 CLEAR_RESULT=false
 WANDB_ENTITY="[your_username]"
 ###########################################################################

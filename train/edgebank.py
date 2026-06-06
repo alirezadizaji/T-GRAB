@@ -57,7 +57,7 @@ class Trainer(ABC):
     
     @property
     def results_path(self) -> str:
-        return os.path.join(self.args.root_load_save_dir, 'lab', 'TSA')
+        return self.args.root_load_save_dir
     
     @property
     def val_first_metric(self) -> str:
@@ -125,7 +125,7 @@ class Trainer(ABC):
         return parser
     
     def _get_args(self) -> argparse.Namespace:
-        parser = argparse.ArgumentParser('*** TSA ***', add_help=False)
+        parser = argparse.ArgumentParser('*** T-GRAB ***', add_help=False)
         
         parser = self.set_model_args(parser)
         self._model_params = list()

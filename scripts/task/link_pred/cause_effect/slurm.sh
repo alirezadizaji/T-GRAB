@@ -1,6 +1,6 @@
 export ROOT_LOAD_SAVE_DIR="$PWD/scratch/"
 export SCRIPT_LOC=scripts/task/link_pred/
-export DATA_LOC=$PWD/data/
+export DATA_LOC=$PWD/scratch/data/
 export PYENV=$PWD/tgrab/
 
 if [[ "$PWD" != */T-GRAB ]]; then
