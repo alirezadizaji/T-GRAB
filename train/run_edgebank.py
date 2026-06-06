@@ -3,7 +3,7 @@ import inspect
 from sys import argv
 from typing import Optional, TypeVar
 
-from TSA.train.edgebank import Trainer
+from .edgebank import Trainer
 
 def find_trainer_class(module_name) -> Optional['Trainer']:
     module = import_module(module_name)
@@ -23,7 +23,7 @@ if __name__ == "__main__":
     model_name = script_name.split(".")[-1]
     
     print(f"*** {model_name} is removed from the argument vector. ***", flush=True)
-    module_name = f"TSA.train.{script_name}"
+    module_name = f"T-GRAB.train.{script_name}"
     trainer_cls = find_trainer_class(module_name)
     trainer: 'Trainer' = trainer_cls()
     trainer.run()

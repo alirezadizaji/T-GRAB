@@ -9,7 +9,7 @@ module load python/3.8
 source $PWD/tgrab/bin/activate
 cd ../
 
-python -m TSA.dataset.DTDG.graph_generation.run long_range \
+python -m T-GRAB.dataset.DTDG.graph_generation.run long_range \
     --num-nodes=$2 \
     --dataset-name="${1}" \
     --seed=12345 \

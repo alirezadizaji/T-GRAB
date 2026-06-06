@@ -5,8 +5,8 @@
 #SBATCH --mem=16G
 #SBATCH --partition=long-cpu
 
-DATA_LOC=lab/TSA/data/
-RUN_SCRIPT=TSA.train.run_edgebank
+DATA_LOC=data/
+RUN_SCRIPT=T-GRAB.train.run_edgebank
 NODE_POS=circular_layout
 
 # Load module, env

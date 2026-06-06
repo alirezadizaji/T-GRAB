@@ -6,7 +6,7 @@ import os
 import numpy as np
 import torch
 
-from TSA.train.edgebank import Trainer
+from ..edgebank import Trainer
 from ...model.edgebank_predictor import EdgeBankPredictor
 
 class EdgeBankTrainer(Trainer):

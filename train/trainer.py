@@ -72,7 +72,7 @@ class Trainer(ABC):
         except Exception as e:
             print(f"Failed to initialize Wandb run: {e}")
             print("Continuing without Wandb logging...")
-            raise Exception(f"Failed to initialize Wandb run: {e}")
+            # raise Exception(f"Failed to initialize Wandb run: {e}")
 
     @property
     def run_dir(self):
@@ -178,7 +178,7 @@ class Trainer(ABC):
         parser.add_argument('--tolerance', type=float, help='Early stopper tolerance', default=1e-6)
         parser.add_argument('--num-run', type=int, help='Number of iteration runs', default=1)
         parser.add_argument('-r', '--clear-results', action='store_true')
-        parser.add_argument('-wp', '--wandb-project', type=str, default="TSA", help="Wandb project name.")
+        parser.add_argument('-wp', '--wandb-project', type=str, default="T-GRAB", help="Wandb project name.")
         parser.add_argument('-we', '--wandb-entity', type=str, default="alirezadizaji24-universit-de-montr-al", help="Wandb entity name.")
         parser.add_argument('-wli', '--wandb-log-interval', type=int, default=30 , help="Wandb log interval in steps.")
         parser.add_argument('-p', '--node-pos', default="kamada_kawai_layout", required=False, help="How to position nodes during visualization.")
@@ -190,7 +190,7 @@ class Trainer(ABC):
         return parser
     
     def _get_args(self) -> argparse.Namespace:
-        parser = argparse.ArgumentParser('*** TSA ***', add_help=False)
+        parser = argparse.ArgumentParser('*** T-GRAB ***', add_help=False)
         
         parser = self.set_model_args(parser)
         self._model_params = list()

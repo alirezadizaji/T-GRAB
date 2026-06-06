@@ -5,7 +5,7 @@ import os
 
 import torch
 
-from TSA.train.trainer import Trainer
+from ..trainer import Trainer
 from ...utils import  NodeFeatType, verify_kwd_existence
 
 NODE_EMB_MODEL_NAME = "node_emb"
