@@ -5,10 +5,6 @@ Authors: Alireza Dizaji, Benedict Aaron Tjandra, Mehrab Hamidi, Shenyang Huang, 
 📝 [Paper](https://arxiv.org/abs/2507.10183)
 🤗 [HuggingFace Dataset](https://huggingface.co/datasets/Gilestel/T-GRAB)
 
-## News
-
-🎉🎉**June 2026:** T-GRAB has been accepted as an **Oral Presentation** at the **32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining (KDD 2026)**, top **7.5%**!
-
 
 This repository contains the implementation of the T-GRAB framework, a comprehensive set of synthetic tasks specifically designed to systematically evaluate the reasoning capabilities of Temporal Graph Neural Networks (TGNNs) over time. The framework offers controlled and interpretable tasks that target three core temporal reasoning skills:
 a) Counting and memorizing periodic repetitions (periodicity),
