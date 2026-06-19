@@ -65,6 +65,7 @@ ARGS=(
     --memory-dim=$MEMORY_DIM
     --train-batch-size=$TRAIN_BATCH_SIZE
     --wandb-entity=$WANDB_ENTITY
+    --use-dyglib
     --wandb-project="T-GRAB"
 )
 
