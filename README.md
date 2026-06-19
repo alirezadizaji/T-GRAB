@@ -139,7 +139,7 @@ You can find the model results and checkpoints in the `scratch/res` directory.
 
 ## Citation
 
-Please use following to cite T-GRAB:
+To cite T-GRAB,, please use the following bibtex code:
 
 ```bibtex
 @inproceedings{10.1145/3770854.3785699,
