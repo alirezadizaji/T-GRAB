@@ -21,4 +21,13 @@ class TimeEncoder(torch.nn.Module):
         self.lin.reset_parameters()
 
     def forward(self, t: Tensor) -> Tensor:
-        return self.lin(t.view(-1, 1)).cos()
+        # Really bad hack. But necessary to make DyGLib and TGB compatible.
+        if t.dim() == 2:
+            # Tensor, shape (batch_size, seq_len, 1)
+            timestamps = t.unsqueeze(dim=2)
+
+            # Tensor, shape (batch_size, seq_len, time_dim)
+            output = torch.cos(self.lin(timestamps))
+            return output
+        else:
+            return self.lin(t.view(-1, 1)).cos()

@@ -20,7 +20,7 @@ class LinkPredTrainer(CTDGTrainer):
         super(LinkPredTrainer, self).__init__()
         assert NODE_EMB_MODEL_NAME in self.model.keys(), f'self.model should contain a graph learning model, passed as {NODE_EMB_MODEL_NAME} keyword.'
         assert 'link_pred' in self.model.keys(), 'self.model should contain a link-prediction head, passed as `link_pred` keyword.'
-        assert isinstance(self.model[NODE_EMB_MODEL_NAME], NodeEmbeddingModel), 'gnn model should be a child class of GraphModel.'
+        # assert isinstance(self.model[NODE_EMB_MODEL_NAME], NodeEmbeddingModel), 'gnn model should be a child class of GraphModel.'
         assert self.val_loader.batch_size == 1, "Validation data loader should have batch size of 1."
         assert self.test_loader.batch_size == 1, "Test data loader should have batch size of 1."
 

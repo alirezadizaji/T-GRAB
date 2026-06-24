@@ -118,6 +118,7 @@ class MemoryModel(NodeEmbeddingModel):
         # updated_node_last_updated_times, Tensor, shape (num_nodes, )
         updated_node_memories, updated_node_last_updated_times = self.get_updated_memories(node_ids=np.array(range(self.num_nodes)),
                                                                                            node_raw_messages=self.memory_bank.node_raw_messages)
+        assert updated_node_last_updated_times.max() <= node_interact_times.min(), "The time of the last updated node memory should be less than the time of the current batch! Last Updated {}, Node Interaction Time {}".format(updated_node_last_updated_times, node_interact_times)
         # compute the node temporal embeddings using the embedding module
         if self.model_name == 'JODIE':
             # compute differences between the time the memory of a node was last updated, and the time for which we want to compute the embedding of a node
@@ -177,7 +178,6 @@ class MemoryModel(NodeEmbeddingModel):
             dst_node_embeddings = updated_node_memories[torch.from_numpy(dst_node_ids)]
 
         return src_node_embeddings, dst_node_embeddings
-
     def get_updated_memories(self, node_ids: np.ndarray, node_raw_messages: dict):
         """
         get the updated memories based on node_ids and node_raw_messages (just for computation), but not update the memories
@@ -613,11 +613,11 @@ class GraphAttentionEmbedding(nn.Module):
 
         # query (source) node always has the start time with time interval == 0
         # shape (batch_size, 1, time_feat_dim)
-        node_time_features = self.time_encoder(timestamps=torch.zeros(node_interact_times.shape).unsqueeze(dim=1).to(device))
+        node_time_features = self.time_encoder(torch.zeros(node_interact_times.shape).unsqueeze(dim=1).to(device))
         # shape (batch_size, node_feat_dim)
         # add memory and node raw features to get node features
         # note that when using getting values of the ids from Tensor, convert the ndarray to tensor to avoid wrong retrieval
-        node_features = node_memories[torch.from_numpy(node_ids)] + self.node_raw_features[torch.from_numpy(node_ids)]
+        node_features = node_memories[torch.from_numpy(node_ids).to(device)] + self.node_raw_features[torch.from_numpy(node_ids).to(device)]
 
         if current_layer_num == 0:
             return node_features
@@ -655,10 +655,10 @@ class GraphAttentionEmbedding(nn.Module):
             neighbor_delta_times = node_interact_times[:, np.newaxis] - neighbor_times
 
             # shape (batch_size, num_neighbors, time_feat_dim)
-            neighbor_time_features = self.time_encoder(timestamps=torch.from_numpy(neighbor_delta_times).float().to(device))
+            neighbor_time_features = self.time_encoder(torch.from_numpy(neighbor_delta_times).float().to(device))
 
             # get edge features, shape (batch_size, num_neighbors, edge_feat_dim)
-            neighbor_edge_features = self.edge_raw_features[torch.from_numpy(neighbor_edge_ids)]
+            neighbor_edge_features = self.edge_raw_features[torch.from_numpy(neighbor_edge_ids).to(device)]
             # temporal graph convolution
             # Tensor, output shape (batch_size, node_feat_dim + time_feat_dim)
             output, _ = self.temporal_conv_layers[current_layer_num - 1](node_features=node_conv_features,
